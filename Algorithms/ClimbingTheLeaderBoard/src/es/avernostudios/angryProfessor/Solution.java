@@ -1,5 +1,7 @@
 package es.avernostudios.angryProfessor;
 
+import javafx.collections.transformation.SortedList;
+
 import java.io.*;
 import java.util.*;
 
@@ -32,21 +34,33 @@ public class Solution {
         }
         // your code goes here
 
-        Map<Integer, Integer> leaderBoard = new TreeMap<>();
+        Set<Integer> leaderBoard = new TreeSet<>();
         for(int i=0;i<scores.length;i++){
             int currentScore = scores[i];
-            if(leaderBoard.containsKey(currentScore)){
-                leaderBoard.put(currentScore,leaderBoard.get(currentScore)+1);
-            }else{
-                leaderBoard.put(currentScore,1);
+            if(!leaderBoard.contains(currentScore)){
+                leaderBoard.add(currentScore);
             }
         }
 
+        Integer[] temp = leaderBoard.toArray(new Integer[0]);
+
         for(int i =0;i<alice.length;i++){
             int currentAliceScore = alice[i];
-            long scoresBiggerThanAlices = leaderBoard.keySet().stream().filter(actual -> actual>currentAliceScore).count();
-            System.out.println(scoresBiggerThanAlices+1);
+            int x=0;
+            for(int j=0;j<temp.length;j++){
+                int aux = temp[j];
+               if(currentAliceScore>=aux){
+                   x++;
+               }else{
+                   System.out.println(leaderBoard.size()+1-x);
+                   break;
+               }
+            }
+            if(x==leaderBoard.size()){
+                System.out.println(leaderBoard.size()+1-x);
+            }
         }
+
 
     }
 
