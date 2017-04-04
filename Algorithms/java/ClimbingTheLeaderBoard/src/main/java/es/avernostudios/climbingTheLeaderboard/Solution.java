@@ -1,6 +1,4 @@
-package es.avernostudios.angryProfessor;
-
-import javafx.collections.transformation.SortedList;
+package es.avernostudios.climbingTheLeaderboard;
 
 import java.io.*;
 import java.util.*;
@@ -17,10 +15,6 @@ public class Solution {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
-
 
         int n = in.nextInt();
         int[] scores = new int[n];
@@ -41,27 +35,41 @@ public class Solution {
                 leaderBoard.add(currentScore);
             }
         }
-
         Integer[] temp = leaderBoard.toArray(new Integer[0]);
 
         for(int i =0;i<alice.length;i++){
             int currentAliceScore = alice[i];
-            int x=0;
-            for(int j=0;j<temp.length;j++){
-                int aux = temp[j];
-               if(currentAliceScore>=aux){
-                   x++;
-               }else{
-                   System.out.println(leaderBoard.size()+1-x);
-                   break;
-               }
-            }
-            if(x==leaderBoard.size()){
-                System.out.println(leaderBoard.size()+1-x);
-            }
+            System.out.println(getRankPosition(temp,currentAliceScore));
         }
+    }
 
+    public static int getRankPosition(Integer[] intArray, int toFind){
+        return 1+intArray.length - scoresLowerThanCertain(intArray,0,intArray.length-1,toFind) ;
+    }
 
+    public static int scoresLowerThanCertain(Integer[] intArray, int lo, int hi, int toFind){
+        int result = -1000;
+        if(hi-lo>=0){
+            if(lo<hi){
+                int mid = lo + (hi - lo) / 2;
+                if(intArray[mid].intValue() == toFind){
+                    result =  mid-lo+1;
+                }else if(toFind<intArray[mid].intValue()){
+                    result =  scoresLowerThanCertain(intArray,lo,mid-1,toFind);
+                }else{
+                    result =  mid -lo +1 + scoresLowerThanCertain(intArray,mid+1,hi,toFind);
+                }
+            }else if(lo==hi){
+                if(toFind>=intArray[lo]){
+                    result =  1;
+                }else{
+                    result =  0;
+                }
+            }
+        }else{
+            result =  0;
+        }
+        return result;
     }
 
 }
