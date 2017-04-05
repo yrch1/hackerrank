@@ -20,7 +20,7 @@ public class Solution {
         int len = in.nextInt();
         String s = in.next();
 
-        int max = 0;
+        int max = isValid(s)?s.length():0;
         String differntCharacters = differentCharacters(s);
         List<String> candidates = getAllSubSet(differntCharacters);
 
@@ -79,7 +79,7 @@ public class Solution {
     private static List<String> getAllSubSet(String differntCharacters) {
         List<String> list = new ArrayList<>();
         StringBuilder myBuilder = new StringBuilder();
-        for(int desiredSize=0; desiredSize<differntCharacters.length(); ++desiredSize){
+        for(int desiredSize=0; desiredSize<2; ++desiredSize){
             getSubsetBySize(differntCharacters, myBuilder, list, desiredSize);
         }
         return list;
