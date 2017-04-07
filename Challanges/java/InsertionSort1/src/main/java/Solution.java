@@ -20,8 +20,8 @@ public class Solution {
                 break;
             }
         }
-        for(int i=0;i-ar.length+3<insertionPoint;i++){
-            ar[ar.length-i-1]=ar[ar.length-i-2];
+        for(int i=ar.length-1;i>insertionPoint;i--){
+            ar[i]=ar[i-1];
             printArray(ar);
         }
         ar[insertionPoint]=e;

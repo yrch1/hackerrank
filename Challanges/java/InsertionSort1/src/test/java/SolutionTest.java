@@ -16,6 +16,11 @@ public class SolutionTest {
     public void insertIntoSorted() throws Exception {
         int[] a ={2,4,6,8,3};
         Solution.insertIntoSorted(a);
+
+        System.out.println(" ----- ");
+
+        int[] b ={3,4,6,8,2};
+        Solution.insertIntoSorted(b);
     }
 
 }
