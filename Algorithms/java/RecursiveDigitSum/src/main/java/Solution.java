@@ -3,6 +3,7 @@
  */
 import java.io.*;
 import java.util.*;
+import java.math.*;
 
 public class Solution {
 
@@ -11,26 +12,25 @@ public class Solution {
     public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner in = new Scanner(System.in);
-        long n = in.nextLong();
-        long k = in.nextLong();
+        BigInteger n = new BigInteger(in.next());
+        BigInteger k = new BigInteger(in.next());
 
-        System.out.println(super_digit(k*super_digit(n)));
+        System.out.println(super_digit(k.multiply(super_digit(n))));
     }
 
-    public static long super_digit(long n){
-        long result = 0;
-        if(n<10){
+    public static BigInteger super_digit(BigInteger n){
+        BigInteger result;
+        if(n.compareTo(new BigInteger("10"))==-1){
             result = n;
         }else{
-            long current = 0;
+            BigInteger current = BigInteger.ZERO;
             String toTest=String.valueOf(n);
             toTest = toTest.replaceAll("0","");
             for(int i=0;i<toTest.length();i++){
-                current += Long.parseLong(toTest.substring(i,i+1));
+                current = current.add(new BigInteger(toTest.substring(i,i+1)));
             }
             result = super_digit(current);
         }
         return result;
     }
 }
-
