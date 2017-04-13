@@ -40,18 +40,18 @@ public class Solution {
         int k = in.nextInt();
         int rQueen = in.nextInt();
         int cQueen = in.nextInt();
-        Map<String,Cell> obstacleList = new HashMap<>(k);
+        Set<Cell> obstacleSet = new HashSet<>(k);
         for(int a0 = 0; a0 < k; a0++){
             int rObstacle = in.nextInt();
             int cObstacle = in.nextInt();
             // your code goes here
             Cell obstacle = new Cell(rObstacle,cObstacle);
-            obstacleList.put(obstacle.toString(),obstacle);
+            obstacleSet.add(obstacle);
         }
-        System.out.println(couldAttack(n,new Cell(rQueen,cQueen),obstacleList));
+        System.out.println(couldAttack(n,new Cell(rQueen,cQueen),obstacleSet));
     }
 
-    public static long couldAttack(int n, Cell queenPosition, Map<String,Cell> obstacleList){
+    public static long couldAttack(int n, Cell queenPosition, Set<Cell> obstacleSet){
 
         long horizontalLeft;
         long horizontalRight;
@@ -62,14 +62,14 @@ public class Solution {
         long diagonalBottomLeft;
         long diagonalBottomRight;
 
-        horizontalLeft = getHorizontalLeft(queenPosition, obstacleList);
-        horizontalRight = getHorizontalRight(n, queenPosition, obstacleList);
-        verticalBottom = getVerticalBottom(queenPosition, obstacleList);
-        verticalTop = getVerticalTop(n, queenPosition, obstacleList);
-        diagonalUpperLeft = getDiagonalUpperLeft(n, queenPosition, obstacleList);
-        diagonalUpperRight = getDiagonalUpperRight(n, queenPosition, obstacleList);
-        diagonalBottomLeft = getDiagonalBottomLeft(queenPosition, obstacleList);
-        diagonalBottomRight = getDiagonalBottomRight(n, queenPosition, obstacleList);
+        horizontalLeft = getHorizontalLeft(queenPosition, obstacleSet);
+        horizontalRight = getHorizontalRight(n, queenPosition, obstacleSet);
+        verticalBottom = getVerticalBottom(queenPosition, obstacleSet);
+        verticalTop = getVerticalTop(n, queenPosition, obstacleSet);
+        diagonalUpperLeft = getDiagonalUpperLeft(n, queenPosition, obstacleSet);
+        diagonalUpperRight = getDiagonalUpperRight(n, queenPosition, obstacleSet);
+        diagonalBottomLeft = getDiagonalBottomLeft(queenPosition, obstacleSet);
+        diagonalBottomRight = getDiagonalBottomRight(n, queenPosition, obstacleSet);
 
 
         return horizontalLeft+horizontalRight+verticalTop+verticalBottom+diagonalUpperLeft+diagonalUpperRight+diagonalBottomLeft+diagonalBottomRight;
@@ -79,10 +79,10 @@ public class Solution {
      *
      * @param n
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getDiagonalBottomRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalBottomRight(int n, Cell queenPosition, Set<Cell> obstacleSet) {
         long diagonalBottomRight = 0;
         int i;
         int j;
@@ -90,7 +90,7 @@ public class Solution {
         j=queenPosition.column+1;
 
         while(i>0 && j<=n){
-            if(!thereIsAObstacle(new Cell(i,j),obstacleList)){
+            if(!thereIsAObstacle(new Cell(i,j),obstacleSet)){
                 diagonalBottomRight++;
             }else{
                 break;
@@ -110,10 +110,10 @@ public class Solution {
     /**
      *
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getDiagonalBottomLeft(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalBottomLeft(Cell queenPosition, Set<Cell> obstacleSet) {
         long diagonalBottomLeft = 0;
         int i;
         int j;//diagonal-bottom-left
@@ -121,7 +121,7 @@ public class Solution {
         j=queenPosition.column-1;
 
         while (i > 0 && j > 0) {
-            if (!thereIsAObstacle(new Cell(i, j), obstacleList)) {
+            if (!thereIsAObstacle(new Cell(i, j), obstacleSet)) {
                 diagonalBottomLeft++;
             } else {
                 break;
@@ -143,10 +143,10 @@ public class Solution {
      *
      * @param n
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getDiagonalUpperRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalUpperRight(int n, Cell queenPosition, Set<Cell> obstacleSet) {
         long diagonalUpperRight = 0;
         int i;
         int j;//diagonal-upper-right
@@ -154,7 +154,7 @@ public class Solution {
         j=queenPosition.column+1;
 
         while(i<=n && j<=n){
-            if(!thereIsAObstacle(new Cell(i,j),obstacleList)){
+            if(!thereIsAObstacle(new Cell(i,j),obstacleSet)){
                 diagonalUpperRight++;
             }else{
                 break;
@@ -176,15 +176,15 @@ public class Solution {
      *
      * @param n
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getDiagonalUpperLeft(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalUpperLeft(int n, Cell queenPosition, Set<Cell> obstacleSet) {
         long diagonalUpperLeft = 0;
         int i=queenPosition.row+1,j=queenPosition.column-1;
 
         while( i<=n && j>0){
-            if(!thereIsAObstacle(new Cell(i,j),obstacleList)){
+            if(!thereIsAObstacle(new Cell(i,j),obstacleSet)){
                 diagonalUpperLeft++;
             }else{
                 break;
@@ -205,14 +205,14 @@ public class Solution {
      *
      * @param n
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getVerticalTop(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getVerticalTop(int n, Cell queenPosition, Set<Cell> obstacleSet) {
         long verticalTop = 0;
         //verticalTop
         for(int i=queenPosition.row+1;i<=n;i++){
-            if(!thereIsAObstacle(new Cell(i,queenPosition.column),obstacleList)){
+            if(!thereIsAObstacle(new Cell(i,queenPosition.column),obstacleSet)){
                 verticalTop++;
             }else{
                 break;
@@ -224,14 +224,14 @@ public class Solution {
     /**
      *
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getVerticalBottom(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getVerticalBottom(Cell queenPosition, Set<Cell> obstacleSet) {
         long verticalBottom = 0;
         //verticalBottom
         for(int i=queenPosition.row-1;i>0;i--){
-            if(!thereIsAObstacle(new Cell(i,queenPosition.column),obstacleList)){
+            if(!thereIsAObstacle(new Cell(i,queenPosition.column),obstacleSet)){
                 verticalBottom++;
             }else{
                 break;
@@ -244,14 +244,14 @@ public class Solution {
      *
      * @param n
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getHorizontalRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getHorizontalRight(int n, Cell queenPosition, Set<Cell> obstacleSet) {
         long horizontalRight = 0;
         //horizontalRight
         for(int i=queenPosition.column+1;i<=n;i++){
-            if(!thereIsAObstacle(new Cell(queenPosition.row,i),obstacleList)){
+            if(!thereIsAObstacle(new Cell(queenPosition.row,i),obstacleSet)){
                 horizontalRight++;
             }else{
                 break;
@@ -263,14 +263,14 @@ public class Solution {
     /**
      *
      * @param queenPosition
-     * @param obstacleList
+     * @param obstacleSet
      * @return
      */
-    public static long getHorizontalLeft(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getHorizontalLeft(Cell queenPosition, Set<Cell> obstacleSet) {
         long horizontalLeft = 0;
         //horizontalLeft
         for(int i=queenPosition.column-1;i>0;i--){
-            if(!thereIsAObstacle(new Cell(queenPosition.row,i),obstacleList)){
+            if(!thereIsAObstacle(new Cell(queenPosition.row,i),obstacleSet)){
                 horizontalLeft++;
             }else{
                 break;
@@ -279,7 +279,7 @@ public class Solution {
         return horizontalLeft;
     }
 
-    private static boolean thereIsAObstacle(Cell cell,Map<String,Cell> obstacleList) {
-        return obstacleList.containsKey(cell.toString());
+    private static boolean thereIsAObstacle(Cell cell,Set<Cell> obstacleSet) {
+        return obstacleSet.contains(cell.toString());
     }
 }

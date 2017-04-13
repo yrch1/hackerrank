@@ -1,9 +1,6 @@
 import org.junit.Assert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by yrch on 13/4/17.
@@ -26,7 +23,7 @@ public class SolutionTest {
         Solution.Cell queenPosition = new Solution.Cell(4,4);
 
 
-        Map<String,Solution.Cell> obstacleList = new HashMap<>(k);
+        Set<Solution.Cell> obstacleList = new HashSet<>(k);
 
         Assert.assertEquals(9,Solution.couldAttack(n,queenPosition,obstacleList));
 
@@ -40,10 +37,10 @@ public class SolutionTest {
         Solution.Cell queenPosition = new Solution.Cell(4,3);
 
 
-        Map<String,Solution.Cell> obstacleList = new HashMap<>(k);
-        obstacleList.put(new Solution.Cell(5,5).toString(),new Solution.Cell(5,5));
-        obstacleList.put(new Solution.Cell(4,2).toString(),new Solution.Cell(4,2));
-        obstacleList.put(new Solution.Cell(2,3).toString(),new Solution.Cell(2,3));
+        Set<Solution.Cell> obstacleList = new HashSet<>(k);
+        obstacleList.add(new Solution.Cell(5,5));
+        obstacleList.add(new Solution.Cell(4,2));
+        obstacleList.add(new Solution.Cell(2,3));
 
         Assert.assertEquals(1,Solution.getVerticalTop(n,queenPosition,obstacleList));
         Assert.assertEquals(1,Solution.getVerticalBottom(queenPosition,obstacleList));
