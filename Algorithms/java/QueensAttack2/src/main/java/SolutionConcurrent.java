@@ -2,8 +2,9 @@
  * QueensAttack2 Created by dortega on 12/04/2017.
  */
 import java.util.*;
+import java.util.concurrent.*;
 
-public class Solution {
+public class SolutionConcurrent {
 
 
     public static class Cell {
@@ -40,37 +41,62 @@ public class Solution {
         int k = in.nextInt();
         int rQueen = in.nextInt();
         int cQueen = in.nextInt();
-        Map<String,Cell> obstacleList = new HashMap<>(k);
+        List<Cell> obstacleList = new ArrayList<>(k);
         for(int a0 = 0; a0 < k; a0++){
             int rObstacle = in.nextInt();
             int cObstacle = in.nextInt();
             // your code goes here
             Cell obstacle = new Cell(rObstacle,cObstacle);
-            obstacleList.put(obstacle.toString(),obstacle);
+            obstacleList.add(obstacle);
         }
         System.out.println(couldAttack(n,new Cell(rQueen,cQueen),obstacleList));
     }
 
-    public static long couldAttack(int n, Cell queenPosition, Map<String,Cell> obstacleList){
+    public static long couldAttack(int n, Cell queenPosition, List<Cell> obstacleList){
 
-        long horizontalLeft;
-        long horizontalRight;
-        long verticalTop;
-        long verticalBottom;
-        long diagonalUpperLeft;
-        long diagonalUpperRight;
-        long diagonalBottomLeft;
-        long diagonalBottomRight;
+        long horizontalLeft=0;
+        long horizontalRight = 0;
+        long verticalTop = 0;
+        long verticalBottom=0;
+        long diagonalUpperLeft=0;
+        long diagonalUpperRight=0;
+        long diagonalBottomLeft=0;
+        long diagonalBottomRight=0;
 
-        horizontalLeft = getHorizontalLeft(queenPosition, obstacleList);
-        horizontalRight = getHorizontalRight(n, queenPosition, obstacleList);
-        verticalBottom = getVerticalBottom(queenPosition, obstacleList);
-        verticalTop = getVerticalTop(n, queenPosition, obstacleList);
-        diagonalUpperLeft = getDiagonalUpperLeft(n, queenPosition, obstacleList);
-        diagonalUpperRight = getDiagonalUpperRight(n, queenPosition, obstacleList);
-        diagonalBottomLeft = getDiagonalBottomLeft(queenPosition, obstacleList);
-        diagonalBottomRight = getDiagonalBottomRight(n, queenPosition, obstacleList);
 
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+
+        Future<Long> horizontalLeftTask = executor.submit(()-> getHorizontalLeft(queenPosition,obstacleList));
+        Future<Long> horizontalRightTask = executor.submit(() -> getHorizontalRight(n,queenPosition,obstacleList));
+
+        Future<Long> verticalBottomTask = executor.submit(()-> getVerticalBottom(queenPosition, obstacleList));
+        Future<Long> verticalTopTask = executor.submit(() -> getVerticalTop(n, queenPosition, obstacleList));
+
+
+        Future<Long> diagonalUpperLeftTask  = executor.submit(() -> getDiagonalUpperLeft(n, queenPosition, obstacleList));
+        Future<Long> diagonalUpperRightTask = executor.submit(() -> getDiagonalUpperRight(n, queenPosition, obstacleList));
+        Future<Long> diagonalBottomLeftTask = executor.submit(() -> getDiagonalBottomLeft(queenPosition, obstacleList));
+        Future<Long> diagonalBottomRightTask = executor.submit(() -> getDiagonalBottomRight(n, queenPosition, obstacleList));
+
+
+        try {
+            horizontalLeft = horizontalLeftTask.get();
+            horizontalRight = horizontalRightTask.get();
+            verticalBottom = verticalBottomTask.get();
+            verticalTop = verticalTopTask.get();
+
+
+            diagonalUpperLeft = diagonalUpperLeftTask.get();
+            diagonalUpperRight = diagonalUpperRightTask.get();
+            diagonalBottomLeft = diagonalBottomLeftTask.get();
+            diagonalBottomRight = diagonalBottomRightTask.get();
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         return horizontalLeft+horizontalRight+verticalTop+verticalBottom+diagonalUpperLeft+diagonalUpperRight+diagonalBottomLeft+diagonalBottomRight;
     }
@@ -82,7 +108,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getDiagonalBottomRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalBottomRight(int n, Cell queenPosition, List<Cell> obstacleList) {
         long diagonalBottomRight = 0;
         int i;
         int j;
@@ -113,7 +139,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getDiagonalBottomLeft(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalBottomLeft(Cell queenPosition, List<Cell> obstacleList) {
         long diagonalBottomLeft = 0;
         int i;
         int j;//diagonal-bottom-left
@@ -146,7 +172,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getDiagonalUpperRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalUpperRight(int n, Cell queenPosition, List<Cell> obstacleList) {
         long diagonalUpperRight = 0;
         int i;
         int j;//diagonal-upper-right
@@ -179,7 +205,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getDiagonalUpperLeft(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getDiagonalUpperLeft(int n, Cell queenPosition, List<Cell> obstacleList) {
         long diagonalUpperLeft = 0;
         int i=queenPosition.row+1,j=queenPosition.column-1;
 
@@ -208,7 +234,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getVerticalTop(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getVerticalTop(int n, Cell queenPosition, List<Cell> obstacleList) {
         long verticalTop = 0;
         //verticalTop
         for(int i=queenPosition.row+1;i<=n;i++){
@@ -227,7 +253,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getVerticalBottom(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getVerticalBottom(Cell queenPosition, List<Cell> obstacleList) {
         long verticalBottom = 0;
         //verticalBottom
         for(int i=queenPosition.row-1;i>0;i--){
@@ -241,13 +267,13 @@ public class Solution {
     }
 
     /**
-     *
+     * Right
      * @param n
      * @param queenPosition
      * @param obstacleList
      * @return
      */
-    public static long getHorizontalRight(int n, Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getHorizontalRight(int n, Cell queenPosition, List<Cell> obstacleList) {
         long horizontalRight = 0;
         //horizontalRight
         for(int i=queenPosition.column+1;i<=n;i++){
@@ -266,7 +292,7 @@ public class Solution {
      * @param obstacleList
      * @return
      */
-    public static long getHorizontalLeft(Cell queenPosition, Map<String,Cell> obstacleList) {
+    public static long getHorizontalLeft(Cell queenPosition, List<Cell> obstacleList){
         long horizontalLeft = 0;
         //horizontalLeft
         for(int i=queenPosition.column-1;i>0;i--){
@@ -279,7 +305,7 @@ public class Solution {
         return horizontalLeft;
     }
 
-    private static boolean thereIsAObstacle(Cell cell,Map<String,Cell> obstacleList) {
-        return obstacleList.containsKey(cell.toString());
+    private static boolean thereIsAObstacle(Cell cell,List<Cell> obstacleList) {
+        return obstacleList.contains(cell);
     }
 }
