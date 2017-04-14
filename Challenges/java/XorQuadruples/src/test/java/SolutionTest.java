@@ -19,7 +19,21 @@ public class SolutionTest {
 
     }
 
+    @Test
+    public void checkXORQuadruple() throws Exception {
+        Assert.assertEquals(0,new Solution.Quadruple(1,1,1,1).getXOR());
+        Assert.assertEquals(3,new Solution.Quadruple(1,1,1,2).getXOR());
 
+
+    }
+
+    @Test
+    public void checkEqualsPair() throws Exception {
+        Assert.assertEquals(new Solution.Pair(1,2),new Solution.Pair(1,2));
+        Assert.assertEquals(new Solution.Pair(1,2),new Solution.Pair(2,1));
+        Assert.assertNotEquals(new Solution.Pair(1,3),new Solution.Pair(7,9));
+
+    }
 
     @Test
     public void checkEqualsQuadruple() throws Exception {
