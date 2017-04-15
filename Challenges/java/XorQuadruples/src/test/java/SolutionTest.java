@@ -3,6 +3,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,6 +20,7 @@ public class SolutionTest {
     public void tearDown() throws Exception {
 
     }
+
 
     @Test
     public void getQuadruples() throws Exception {
@@ -35,7 +38,6 @@ public class SolutionTest {
 
 
     }
-
 
 
 }
