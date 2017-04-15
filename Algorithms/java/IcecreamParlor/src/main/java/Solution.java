@@ -12,6 +12,7 @@ public class Solution {
 
         Scanner in = new Scanner(System.in);
 
+        //Intellij hack
         try {
             if (args.length > 0) {
                 in = new Scanner(new File(args[0]));
@@ -31,7 +32,6 @@ public class Solution {
 
             System.out.println(getSolution(money,flavours));
         }
-
     }
 
     /**
@@ -41,7 +41,7 @@ public class Solution {
      * @return
      */
     public static String getSolution(int money, int[] flavours) {
-        String result = "";
+        String result;
 
         Map<Integer,List<Integer>> myTree = new TreeMap<>();
         for(int i=0;i<flavours.length;i++){
