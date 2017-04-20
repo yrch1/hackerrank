@@ -57,6 +57,8 @@ public class SolutionTest {
 
         Assert.assertEquals(4,Solution.getSolutionSlow(new int[]{2,3,4,4,2,3,5}));
 
+        Assert.assertEquals(9,Solution.getSolutionSlow(new int[]{1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,3,3,3,3,1}));
+
     }
 
 
@@ -74,7 +76,7 @@ public class SolutionTest {
         A[6] = 4;
         A[7] = 1;
 
-        Assert.assertEquals(5,Solution.getSolution(A));
+        Assert.assertEquals(Solution.getSolutionSlow(A),Solution.getSolutionSlow(A));
 
         int b[] = new int[8];
 
@@ -87,9 +89,9 @@ public class SolutionTest {
         b[6] = 2;
         b[7] = 3;
 
-        Assert.assertEquals(3,Solution.getSolution(b));
+        Assert.assertEquals(Solution.getSolutionSlow(b),Solution.getSolution(b));
 
-        Assert.assertEquals(4,Solution.getSolution(new int[]{3,3,2,3,2,4,5,2,3}));
+        Assert.assertEquals(Solution.getSolutionSlow(new int[]{3,3,2,3,2,4,5,2,3}),Solution.getSolution(new int[]{3,3,2,3,2,4,5,2,3}));
 
 
         int c[] = new int[2];
@@ -97,10 +99,12 @@ public class SolutionTest {
         c[0] = 1;
         c[1] = 1;
 
-        Assert.assertEquals(1,Solution.getSolution(c));
+        Assert.assertEquals(Solution.getSolutionSlow(c),Solution.getSolution(c));
 
 
-        Assert.assertEquals(4,Solution.getSolution(new int[]{2,3,4,4,2,3,5}));
+        Assert.assertEquals(Solution.getSolutionSlow(new int[]{2,3,4,4,2,3,5}),Solution.getSolution(new int[]{2,3,4,4,2,3,5}));
+
+        Assert.assertEquals(Solution.getSolutionSlow(new int[]{1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,3,3,3,3,1}),Solution.getSolution(new int[]{1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,3,3,3,3,1}));
 
     }
 

@@ -35,6 +35,11 @@ public class Solution {
 
 
     public static int getSolution(int a[]) {
+        Set<Integer> places = new HashSet<>();
+        for(int i=0;i<a.length;i++){
+            places.add(a[i]);
+        }
+
         int start = 0, end = start + 1;
         Set<Integer> dest = new HashSet<>();
         for (int i = 0; i < a.length; i++) {
