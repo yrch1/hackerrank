@@ -76,7 +76,7 @@ public class SolutionTest {
         A[6] = 4;
         A[7] = 1;
 
-        Assert.assertEquals(Solution.getSolutionSlow(A),Solution.getSolutionSlow(A));
+        Assert.assertEquals(Solution.getSolutionSlow(A),Solution.getSolution(A));
 
         int b[] = new int[8];
 
