@@ -24,7 +24,7 @@ public class SolutionTest {
 
     @Test
     public void getQuadruples() throws Exception {
-        Assert.assertEquals(11,Solution.getQuadruples(1,2,3,4));
+        Assert.assertEquals(11,Solution.getQuadruples(2,3,4,5));
 
 
 
