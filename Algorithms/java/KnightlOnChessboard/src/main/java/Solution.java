@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Solution {
 
+
     public  static  class Cell{
         private int x;
         private int y;
@@ -92,7 +93,7 @@ public class Solution {
         return result.toString();
     }
 
-    private static long getMovements(Cell source, Cell target, int i, int j, boolean[][] visited) {
+    public static long getMovements(Cell source, Cell target, int i, int j, boolean[][] visited) {
         long result = 0;
         if(source.equals(target)){
             result = 0;
@@ -102,13 +103,19 @@ public class Solution {
                 List<Cell> movements = getPossibleMovements(source,i,j,target);
                 result = Long.MAX_VALUE;
                 for(Cell nextMovement : movements){
-                    boolean[][] visited2 = visited.clone();
+                    boolean[][] visited2 = Solution.clone(visited);
                     long current = getMovements(nextMovement,target,i,j,visited2);
                     if(current!=-1 && current !=Long.MAX_VALUE){
-                        current++;
-                        if(current<result){
-                            result = current;
+                        if(current==0){
+                            result = 1;
+                            break;
+                        }else{
+                            current++;
+                            if(current<result){
+                                result = current;
+                            }
                         }
+
                     }
                 }
 
@@ -122,7 +129,20 @@ public class Solution {
         return result;
     }
 
-    private static boolean[][] initVisited(int x) {
+    public static boolean[][] clone(boolean[][] visited) {
+        boolean[][] result = new boolean[visited.length][visited[0].length];
+
+        for(int i=0;i<visited.length;i++){
+            result[i] = new boolean[visited[0].length];
+            for(int j=0;j<visited[0].length;j++){
+                result[i][j]=visited[i][j];
+            }
+        }
+        return result;
+    }
+
+
+    public static boolean[][] initVisited(int x) {
         boolean[][] result = new boolean[x][x];
 
        for(int i=0;i<x;i++){
