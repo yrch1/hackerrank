@@ -66,22 +66,30 @@ public class Solution {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         // your code goes here
-        for(int i=n-1;i>0;i--){
-            String  s = Solution.getSolution(i,new Cell(i,i));
-        }
+
+        String  s = Solution.getSolution(n);
+        System.out.println(s);
+
     }
 
-    private static String getSolution(int x, Cell target) {
+    private static String getSolution(int n) {
         StringBuilder result = new StringBuilder();
-        for(int i = 1;i<x;i++){
+        for(int i=1;i<n;i++){
+            for(int j = 1;j<n;j++){
 
-            boolean visited[][]  = initVisited(x+1);
+                boolean visited[][]  = initVisited(n);
 
-            long movements = getMovements(new Cell(0,0),target,1,i,visited);
-            result.append(movements+" ");
+                long movements = getMovements(new Cell(0,0),new Cell(n-1,n-1),i,j,visited);
+                if(movements==Long.MAX_VALUE){
+                    movements = -1;
+                }
+                result.append(movements+" ");
+            }
+            result.append(System.getProperty("line.separator"));
         }
 
-        return null;
+
+        return result.toString();
     }
 
     private static long getMovements(Cell source, Cell target, int i, int j, boolean[][] visited) {
@@ -92,21 +100,20 @@ public class Solution {
             if(!visited[source.getX()][source.getY()]){
                 visited[source.getX()][source.getY()] = true;
                 List<Cell> movements = getPossibleMovements(source,i,j,target);
-                long min  = Long.MAX_VALUE;
+                result = Long.MAX_VALUE;
                 for(Cell nextMovement : movements){
                     boolean[][] visited2 = visited.clone();
                     long current = getMovements(nextMovement,target,i,j,visited2);
                     if(current!=-1 && current !=Long.MAX_VALUE){
                         current++;
-                        if(current<min){
-                            min = current;
+                        if(current<result){
+                            result = current;
                         }
                     }
-
                 }
 
             }else{
-                result = -1;
+                result = Long.MAX_VALUE;
             }
         }
 
@@ -187,6 +194,20 @@ public class Solution {
 
 
         return result;
+    }
+
+    public static String printChessboard(boolean[][] a){
+        StringBuilder result = new StringBuilder();
+        for(int i=0;i<a.length;i++){
+            result.append(System.getProperty("line.separator"));
+            for(int j=0;j<a[0].length;j++){
+                result.append(" | " + a[i][j]  );
+            }
+            result.append(" |");
+            result.append(System.getProperty("line.separator"));
+        }
+
+        return result.toString();
     }
 
     private static class MyComparator implements Comparator<Cell> {
