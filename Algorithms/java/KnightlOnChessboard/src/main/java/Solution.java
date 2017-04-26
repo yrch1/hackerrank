@@ -66,7 +66,68 @@ public class Solution {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         // your code goes here
+        for(int i=n-1;i>0;i--){
+            String  s = Solution.getSolution(i,new Cell(i,i));
+        }
     }
+
+    private static String getSolution(int x, Cell target) {
+        StringBuilder result = new StringBuilder();
+        for(int i = 1;i<x;i++){
+
+            boolean visited[][]  = initVisited(x+1);
+
+            long movements = getMovements(new Cell(0,0),target,1,i,visited);
+            result.append(movements+" ");
+        }
+
+        return null;
+    }
+
+    private static long getMovements(Cell source, Cell target, int i, int j, boolean[][] visited) {
+        long result = 0;
+        if(source.equals(target)){
+            result = 0;
+        }else{
+            if(!visited[source.getX()][source.getY()]){
+                visited[source.getX()][source.getY()] = true;
+                List<Cell> movements = getPossibleMovements(source,i,j,target);
+                long min  = Long.MAX_VALUE;
+                for(Cell nextMovement : movements){
+                    boolean[][] visited2 = visited.clone();
+                    long current = getMovements(nextMovement,target,i,j,visited2);
+                    if(current!=-1 && current !=Long.MAX_VALUE){
+                        current++;
+                        if(current<min){
+                            min = current;
+                        }
+                    }
+
+                }
+
+            }else{
+                result = -1;
+            }
+        }
+
+
+
+        return result;
+    }
+
+    private static boolean[][] initVisited(int x) {
+        boolean[][] result = new boolean[x][x];
+
+       for(int i=0;i<x;i++){
+           result[i] = new boolean[x];
+           for(int j=0;j<x;j++){
+               result[i][j]=false;
+           }
+       }
+
+       return result;
+    }
+
 
     public static long getDistance(Cell a, Cell b){
         int ni = Math.abs(b.getX()-a.getX());
@@ -74,7 +135,7 @@ public class Solution {
         return ni>mj?ni:mj;
     }
 
-    public static List<Cell> getMovements(Cell s,int a, int b,Cell target) {
+    public static List<Cell> getPossibleMovements(Cell s, int a, int b, Cell target) {
         List<Cell>  result = new ArrayList<>();
 
         Cell c1 =  new Cell(s.getX()+a,s.getY()+b);
@@ -87,37 +148,37 @@ public class Solution {
         Cell c7 =  new Cell(s.getX()-a,s.getY()-b);
         Cell c8 =  new Cell(s.getX()-b,s.getY()-a);
 
-        if(c2.isValid(target)){
+        if(c2.isValid(target) && !result.contains(c2)){
             result.add(c2);
         }
 
-        if(c1.isValid(target)){
+        if(c1.isValid(target) && !result.contains(c1)){
             result.add(c1);
         }
 
 
 
-        if(c3.isValid(target)){
+        if(c3.isValid(target) && !result.contains(c3)){
             result.add(c3);
         }
 
-        if(c4.isValid(target)){
+        if(c4.isValid(target) && !result.contains(c4)){
             result.add(c4);
         }
 
-        if(c5.isValid(target)){
+        if(c5.isValid(target) && !result.contains(c5)){
             result.add(c5);
         }
 
-        if(c6.isValid(target)){
+        if(c6.isValid(target) && !result.contains(c6)){
             result.add(c6);
         }
 
-        if(c7.isValid(target)){
+        if(c7.isValid(target) && !result.contains(c7)){
             result.add(c7);
         }
 
-        if(c8.isValid(target)){
+        if(c8.isValid(target) && !result.contains(c8)){
             result.add(c8);
         }
 
@@ -178,7 +239,7 @@ public class Solution {
         public int compare(Cell o1, Cell o2) {
             long d1 = Solution.getDistance(o1,target);
             long d2 = Solution.getDistance(o2,target);
-            if(d1<d2){
+            if(d1>d2){
                 return 1;
             }else if(d1==d2){
                 return 0;

@@ -4,9 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by yrch on 25/4/17.
@@ -56,7 +53,7 @@ public class SolutionTest {
     @Test
     public void getMovements() throws Exception {
         Solution.Cell a = new Solution.Cell(0,0);
-        List<Solution.Cell> validMovements = Solution.getMovements(a,1,2,new Solution.Cell(5,5));
+        List<Solution.Cell> validMovements = Solution.getPossibleMovements(a,1,2,new Solution.Cell(5,5));
         Assert.assertTrue(validMovements!=null);
         Assert.assertTrue(validMovements.size()==2);
         Assert.assertTrue(validMovements.contains(new Solution.Cell(2,1)));
