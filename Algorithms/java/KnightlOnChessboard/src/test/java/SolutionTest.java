@@ -3,6 +3,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 /**
@@ -41,7 +44,29 @@ public class SolutionTest {
 
 
     @Test
-    public void getDistance() throws Exception {
-        Assert.assertTrue(Solution.getMovements()!=null);
+    public void isValid() throws Exception {
+        Solution.Cell a = new Solution.Cell(0,0);
+        Assert.assertTrue(a.isValid(new Solution.Cell(2,2)));
+        Assert.assertFalse(new Solution.Cell(-1,0).isValid(new Solution.Cell(2,2)));
+        Assert.assertFalse(new Solution.Cell(0,-1).isValid(new Solution.Cell(2,2)));
+        Assert.assertFalse(new Solution.Cell(3,3).isValid(new Solution.Cell(2,2)));
+        Assert.assertTrue(new Solution.Cell(2,2).isValid(new Solution.Cell(2,2)));
+    }
+
+    @Test
+    public void getMovements() throws Exception {
+        Solution.Cell a = new Solution.Cell(0,0);
+        List<Solution.Cell> validMovements = Solution.getMovements(a,1,2,new Solution.Cell(5,5));
+        Assert.assertTrue(validMovements!=null);
+        Assert.assertTrue(validMovements.size()==2);
+        Assert.assertTrue(validMovements.contains(new Solution.Cell(2,1)));
+        Assert.assertTrue(validMovements.contains(new Solution.Cell(1,2)));
+        Assert.assertFalse(validMovements.contains(new Solution.Cell(3,2)));
+    }
+
+    @Test
+    public void equals() throws Exception {
+        Assert.assertEquals(new Solution.Cell(1,1),new Solution.Cell(1,1));
+        Assert.assertNotEquals(new Solution.Cell(1,1),new Solution.Cell(1,2));
     }
 }
