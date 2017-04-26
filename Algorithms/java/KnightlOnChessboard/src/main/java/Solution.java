@@ -75,14 +75,25 @@ public class Solution {
 
     private static String getSolution(int n) {
         StringBuilder result = new StringBuilder();
+        Map<String,Long> symmetricCache = new HashMap<>();
         for(int i=1;i<n;i++){
             for(int j = 1;j<n;j++){
+                long movements;
+                if(!symmetricCache.containsKey(i+"-"+j) && !symmetricCache.containsKey(j+"-"+i)){
+                    boolean visited[][]  = initVisited(n);
 
-                boolean visited[][]  = initVisited(n);
+                    movements = getMovements(new Cell(0,0),new Cell(n-1,n-1),i,j,visited);
 
-                long movements = getMovements(new Cell(0,0),new Cell(n-1,n-1),i,j,visited);
-                if(movements==Long.MAX_VALUE){
-                    movements = -1;
+                    if(movements==Long.MAX_VALUE){
+                        movements = -1;
+                    }
+                    symmetricCache.put(j+"-"+i,movements);
+                }else{
+                    if(symmetricCache.containsKey(i+"-"+j)){
+                        movements = symmetricCache.get(i+"-"+j);
+                    }else{
+                        movements = symmetricCache.get(j+"-"+i);
+                    }
                 }
                 result.append(movements+" ");
             }
@@ -94,16 +105,19 @@ public class Solution {
     }
 
     public static long getMovements(Cell source, Cell target, int i, int j, boolean[][] visited) {
+        //System.out.print(source);
         long result = 0;
         if(source.equals(target)){
             result = 0;
         }else{
             if(!visited[source.getX()][source.getY()]){
                 visited[source.getX()][source.getY()] = true;
-                List<Cell> movements = getPossibleMovements(source,i,j,target);
+                List<Cell> movements = getPossibleMovements(source,i,j,target,visited);
                 result = Long.MAX_VALUE;
+                //System.out.print("\n ->");
+
+                boolean[][] visited2 = Solution.clone(visited);
                 for(Cell nextMovement : movements){
-                    boolean[][] visited2 = Solution.clone(visited);
                     long current = getMovements(nextMovement,target,i,j,visited2);
                     if(current!=-1 && current !=Long.MAX_VALUE){
                         if(current==0){
@@ -162,7 +176,7 @@ public class Solution {
         return ni>mj?ni:mj;
     }
 
-    public static List<Cell> getPossibleMovements(Cell s, int a, int b, Cell target) {
+    public static List<Cell> getPossibleMovements(Cell s, int a, int b, Cell target, boolean[][] visited) {
         List<Cell>  result = new ArrayList<>();
 
         Cell c1 =  new Cell(s.getX()+a,s.getY()+b);
@@ -175,37 +189,37 @@ public class Solution {
         Cell c7 =  new Cell(s.getX()-a,s.getY()-b);
         Cell c8 =  new Cell(s.getX()-b,s.getY()-a);
 
-        if(c2.isValid(target) && !result.contains(c2)){
+        if(c2.isValid(target) && !result.contains(c2) && !visited[c2.getX()][c2.getY()]){
             result.add(c2);
         }
 
-        if(c1.isValid(target) && !result.contains(c1)){
+        if(c1.isValid(target) && !result.contains(c1) && !visited[c1.getX()][c1.getY()]){
             result.add(c1);
         }
 
 
 
-        if(c3.isValid(target) && !result.contains(c3)){
+        if(c3.isValid(target) && !result.contains(c3) && !visited[c3.getX()][c3.getY()]){
             result.add(c3);
         }
 
-        if(c4.isValid(target) && !result.contains(c4)){
+        if(c4.isValid(target) && !result.contains(c4) && !visited[c4.getX()][c4.getY()]){
             result.add(c4);
         }
 
-        if(c5.isValid(target) && !result.contains(c5)){
+        if(c5.isValid(target) && !result.contains(c5) && !visited[c5.getX()][c5.getY()]){
             result.add(c5);
         }
 
-        if(c6.isValid(target) && !result.contains(c6)){
+        if(c6.isValid(target) && !result.contains(c6) && !visited[c6.getX()][c6.getY()]){
             result.add(c6);
         }
 
-        if(c7.isValid(target) && !result.contains(c7)){
+        if(c7.isValid(target) && !result.contains(c7) && !visited[c7.getX()][c7.getY()]){
             result.add(c7);
         }
 
-        if(c8.isValid(target) && !result.contains(c8)){
+        if(c8.isValid(target) && !result.contains(c8) && !visited[c8.getX()][c8.getY()]){
             result.add(c8);
         }
 

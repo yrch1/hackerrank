@@ -53,7 +53,7 @@ public class SolutionTest {
     @Test
     public void getPossibleMovements() throws Exception {
         Solution.Cell a = new Solution.Cell(0,0);
-        List<Solution.Cell> validMovements = Solution.getPossibleMovements(a,1,2,new Solution.Cell(5,5));
+        List<Solution.Cell> validMovements = Solution.getPossibleMovements(a,1,2,new Solution.Cell(5,5),  Solution.initVisited(5));
         Assert.assertTrue(validMovements!=null);
         Assert.assertTrue(validMovements.size()==2);
         Assert.assertTrue(validMovements.contains(new Solution.Cell(2,1)));
@@ -71,7 +71,7 @@ public class SolutionTest {
     public void getMovements() throws Exception {
         boolean visited[][]  = Solution.initVisited(5);
         Assert.assertEquals(1,Solution.getMovements(new Solution.Cell(3,2),new Solution.Cell(4,4),1,2,Solution.clone(visited)));
-        Assert.assertEquals(2,Solution.getMovements(new Solution.Cell(0,4),new Solution.Cell(4,4),1,2,Solution.clone(visited)));
+       Assert.assertEquals(2,Solution.getMovements(new Solution.Cell(0,4),new Solution.Cell(4,4),1,2,Solution.clone(visited)));
         Assert.assertEquals(3,Solution.getMovements(new Solution.Cell(2,1),new Solution.Cell(4,4),1,2,Solution.clone(visited)));
         Assert.assertEquals(4,Solution.getMovements(new Solution.Cell(0,0),new Solution.Cell(4,4),1,2,Solution.clone(visited)));
 
