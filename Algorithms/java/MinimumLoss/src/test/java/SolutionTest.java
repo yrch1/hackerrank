@@ -13,4 +13,10 @@ public class SolutionTest {
         Assert.assertEquals(2,Solution.getSolution(new int[]{20,7,8,2,5}));
     }
 
+    @Test
+    public void getSolution2() throws Exception {
+//        Assert.assertEquals(2,Solution.getSolution2(new int[]{5,10,3}));
+        Assert.assertEquals(2,Solution.getSolution2(new int[]{20,7,8,2,5}));
+    }
+
 }
