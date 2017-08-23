@@ -17,11 +17,16 @@ public class Solution {
 
     public static boolean getSolution(int a, int m) {
         boolean result = false;
+        long currentMCD = Math.abs(mcd(a,m));
+        if(a>2 && currentMCD==1 ){
+            long aux = powerN(a,(m-1)/2);
 
-        long aux = powerN(a,(m-1)/2);
+            long jacobi =jacobi(aux,m);
 
-        long jacobi =jacobi(aux,m);
-        return jacobi ==1;
+            result = jacobi ==1;
+        }
+
+        return result;
     }
 
     public static long jacobi(long a, long n) {
@@ -48,6 +53,16 @@ public class Solution {
         else
             ans = ( a % 4 == 3 && n % 4 == 3 ) ? -jacobi(n,a) : jacobi(n,a);
         return ans;
+    }
+
+    public static long mcd(long a, long b){
+        long result;
+        if(b==0){
+            result = a;
+        }else{
+            result = mcd(b,a % b);
+        }
+        return result;
     }
 
     public static long powerN(int base, int exp) {
