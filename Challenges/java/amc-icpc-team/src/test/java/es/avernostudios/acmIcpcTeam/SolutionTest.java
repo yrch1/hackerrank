@@ -7,13 +7,6 @@ import org.junit.Test;
 
 public class SolutionTest {
 
-    @Test
-    public void countOnes() {
-        Assert.assertEquals(Solution.countOnes("111"),3);
-        Assert.assertEquals(Solution.countOnes("100000011000000000"),3);
-        Assert.assertEquals(Solution.countOnes("000"),0);
-        Assert.assertEquals(Solution.countOnes("1"),1);
-    }
 
     @Test
     public void maxNumberOfTopics() {

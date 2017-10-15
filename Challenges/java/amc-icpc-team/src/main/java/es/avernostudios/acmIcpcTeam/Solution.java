@@ -17,16 +17,6 @@ public class Solution {
         return bitset;
     }
 
-    public static int countOnes(String cadena){
-        int result = 0;
-        for(int j=0;j<cadena.length();j++){
-            if(cadena.charAt(j)=='1'){
-                result++;
-            }
-        }
-
-        return result;
-    }
 
     public static int maxNumberOfTopics(String[] topic){
         int result = 0;
