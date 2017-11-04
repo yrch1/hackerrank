@@ -26,25 +26,10 @@ public class Solution {
                 userPass.add(in.next());
 
             }
-
-            /*userPass.sort(new Comparator<String>() {
-                @Override
-                public int compare(String o1, String o2) {
-                    int x= o1.length();
-                    int y = o2.length();
-                    if(x>y){
-                        return -1;
-                    }else if(x==y){
-                        return o1.compareTo(o2);
-                    }else{
-                        return 1;
-                    }
-                }
-            });*/
             in.nextLine();
             String targetPasswords = in.nextLine();
 
-            getSolution(userPass,targetPasswords);
+            System.out.println(getSolution(userPass,targetPasswords));
 
         }
 
@@ -83,20 +68,22 @@ public class Solution {
     }
 
 
-    private static void getSolution(List<String> userPass,final String targetPasswords) {
+    public static String getSolution(List<String> userPass,final String targetPasswords) {
 
 
        Set<String> mySet = new HashSet<>();
         Deque<String> stack = new ArrayDeque<>();
         boolean aux = getSolutionInner(userPass,targetPasswords, stack,mySet);
+
+        StringBuilder result = new StringBuilder();
         if(aux){
-            stack.forEach(x->{
-                System.out.print(x+" ");
-            });
-            System.out.println("");
+            stack.forEach(x-> result.append(x+" "));
+            result.delete(result.length()-1,result.length());
         }else{
-            System.out.println("WRONG PASSWORD");
+            result.append("WRONG PASSWORD");
         }
+
+        return result.toString();
 
     }
 }
